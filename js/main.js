@@ -1,28 +1,18 @@
 firebase.initializeApp({
-    apiKey: "AIzaSyBe8o-QiOYiY0Kc2QOvBRU93T2h26CKzxw",
-    authDomain: "tasker-ea7c9.firebaseapp.com",
-    databaseURL: "https://tasker-ea7c9.firebaseio.com",
-    projectId: "tasker-ea7c9",
-    storageBucket: "tasker-ea7c9.appspot.com",
-    messagingSenderId: "767095940991"
+    apiKey: "AIzaSyBse9FlkX-vBRYTtBwU180YikcBAOzGKd8",
+    authDomain: "dare-ae032.firebaseapp.com",
+    databaseURL: "https://dare-ae032.firebaseio.com",
+    projectId: "dare-ae032",
+    storageBucket: "dare-ae032.appspot.com",
+    messagingSenderId: "137119318931"
   });
   
   // Initialize Cloud Firestore through Firebase
   var db = firebase.firestore();
 
-  //Add note
-
-  function addNote(){
-
-    let titulo = document.getElementById('ititle').value;
-    let descripcion = document.getElementById('idescription').value;
-    let fecha = document.getElementById('idate').value;
-
-
-    db.collection("counts").add({
-        title: titulo,
-        description: descripcion,
-        day: fecha
+/*db.collection("Dare").add({
+        codigo: "3",
+        dare: "publicar una foto llorando en tu estado de whatsapp"
     })
     .then(function(docRef) {
         console.log("Document written with ID: ", docRef.id);
@@ -30,69 +20,82 @@ firebase.initializeApp({
     })
     .catch(function(error) {
         console.error("Error adding document: ", error);
+    });*/
+
+  //Add note
+
+  function addDare(){
+
+    let reto = document.getElementById('reto').value;
+    let code = document.getElementById('code').value;
+
+
+    db.collection("Dare").add({
+        codigo: code,
+        dare: reto
+    })
+    .then(function(docRef) {
+        document.getElementById('reto').value='';
+        document.getElementById('code').value='';
+        console.log("Document written with ID: ", docRef.id);
+        alert("Guardado correctamente 😎");
+    })
+    .catch(function(error) {
+        console.error("Error adding document: ", error);
+        alert(" ERROR ERROR ERROR  😪 ")
     });
 
 }
 
-//Show Notes
 
-let cuentas = document.getElementById('formcount');
-db.collection("counts").onSnapshot((querySnapshot) => {
-    cuentas.innerHTML ='';
-    
+
+let codedatos = document.getElementById('codedare');
+
+codedatos.innerHTML='';
+
+db.collection("Dare").orderBy("codigo", "desc").limit(1).onSnapshot((querySnapshot) => {
     querySnapshot.forEach((doc) => {
-        
-        
         console.log(`${doc.id} => ${doc.data()}`);
-        
-        var iday= doc.data().day;
-        var dia = parseInt(iday.substr(8,10));
-        var mes = parseInt(iday.substr(5,8));
-        var ano = parseInt(iday.substr(0,4));
-
-        if(mes == 1){
-            mes ="Enero";
-        }else if(mes==2){
-            mes ="febrero";
-        }else if(mes == 3){
-            mes ="Marzo";
-        }else if(mes==4){
-            mes ="Abril";
-        }else if(mes==5){
-            mes ="Mayo";
-        }else if(mes == 6){
-            mes ="Junio";
-        }else if(mes==7){
-            mes ="Julio";
-        }else if(mes==8){
-            mes ="Agosto";
-        }else if(mes == 9){
-            mes ="Septiembre";
-        }else if(mes==10){
-            mes ="Octubre";
-        }else if(mes==11){
-            mes ="Noviembre";
-        }else if(mes == 12){
-            mes ="Diciembre";
-        }
-
-        cuentas.innerHTML +=` 
-        <div class="deudas-card">
-        <div class="fecha">
-            <h1>${dia}</h1>
-            <h2>${mes}</h2>
-            <h4>${ano}</h4>
-        </div>
-        <div class="info">
-            <h3>${doc.data().title}</h3>
-            <p>${doc.data().description}</p>
-        </div>
-        <div class="botones">
-            <button><i class="far fa-edit"></i></button>
-            <button><i class="far fa-trash-alt"></i></button>
-        </div>
-        </div>
-   `
-        
+        codedatos.innerHTML=`
+        <p>${doc.data().codigo}</p>
+        `;
     });
 });
+
+
+
+
+
+function nextDare(){
+let datos = document.getElementById('dare');
+
+    datos.innerHTML='';
+    
+
+    let numeroRandom =getRandom(1,4);
+    console.log(numeroRandom);
+
+    db.collection("Dare").where("codigo", "==", String(numeroRandom))
+    .get()
+    .then(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
+            // doc.data() is never undefined for query doc snapshots
+            console.log(doc.id, " => ", doc.data());
+            datos.innerHTML=`
+            <p>${doc.data().dare}</p>
+            `;
+        });
+    })
+    .catch(function(error) {
+        console.log("Error getting documents: ", error);
+    });
+
+
+}
+
+
+
+function getRandom(min, max) {
+    return Math.floor(Math.random() * (max - min)) + min;
+}
+
