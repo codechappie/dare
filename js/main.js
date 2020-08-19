@@ -83,6 +83,7 @@ let datos = document.getElementById('dare');
             console.log(doc.id, " => ", doc.data());
             datos.innerHTML=`
             <p>${doc.data().dare}</p>
+                console.log(doc.data().dare)
             `;
         });
     })
