@@ -49,18 +49,18 @@ firebase.initializeApp({
 
 
 
-let codedatos = document.getElementById('codedare');
+// let codedatos = document.getElementById('codedare');
 
-codedatos.innerHTML='';
+// codedatos.innerHTML='';
 
-db.collection("Dare").orderBy("codigo", "desc").limit(1).onSnapshot((querySnapshot) => {
-    querySnapshot.forEach((doc) => {
-        console.log(`${doc.id} => ${doc.data()}`);
-        codedatos.innerHTML=`
-        <p>${doc.data().codigo}</p>
-        `;
-    });
-});
+// db.collection("Dare").orderBy("codigo", "desc").limit(tos1).onSnapshot((querySnapshot) => {
+//     querySnapshot.forEach((doc) => {
+//         console.log(`${doc.id} => ${doc.data()}`);
+//         codedatos.innerHTML=`
+//         <p>${doc.data().codigo}</p>
+//         `;
+//     });
+// });
 
 
 
